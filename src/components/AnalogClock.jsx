@@ -4,40 +4,59 @@ import ShareButton from "./ShareButton";
 import { FaShareAlt } from "react-icons/fa";
 
 const AnalogClock = () => {
-  const initialTime = new Date(new Date().getTime());
-  const [time, setTime] = useState(initialTime);
+  const [time, setTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(null); // Initialize endTime with useState
+
+  const [url, setUrl] = useState(null);
+  const options = {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  };
 
   const getInitialSpeed = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const speedParam = urlParams.get("speed");
     return speedParam ? parseFloat(speedParam) : 1;
   };
-
+  const [speed, setSpeed] = useState(getInitialSpeed());
   const handleShare = () => {
     const newUrl = `${window.location.origin}${window.location.pathname}?speed=${speed}`;
     console.log(`Sharing URL: ${newUrl}`);
     setUrl(newUrl);
   };
 
-  const [speed, setSpeed] = useState(getInitialSpeed());
-  const [url, setUrl] = useState(null);
+  useEffect(() => {
+    setEndTime(new Date(new Date().getTime() - 120 * 60 * 1000));
+  }, []);
 
   useEffect(() => {
     const timerId = setInterval(() => {
-      setTime((prevTime) => new Date(prevTime.getTime() - 1000));
+      if (endTime && time.getTime() <= endTime.getTime()) {
+        clearInterval(timerId);
+      } else {
+        setTime((prevTime) => new Date(prevTime.getTime() - 1000));
+      }
     }, 1000 / speed);
 
     return () => {
       clearInterval(timerId);
     };
-  }, [speed]);
+  }, [speed, endTime, time]);
 
   useEffect(() => {
     console.log(`URL Updated: ${url}`);
   }, [url]);
+  const formattedCurrentTime = time.toLocaleTimeString("en-US", options);
+  const formattedEndTime = endTime
+    ? endTime.toLocaleTimeString("en-US", options)
+    : "Initializing...";
 
   return (
     <div className="flex flex-col items-center">
+      <span>Current Time: {formattedCurrentTime}</span>
+      <span>End Time: {formattedEndTime}</span>
       <SpeedSlider speed={speed} setSpeed={setSpeed} />
       <div className="clock bg-[radial-gradient(169.40%_89.55%_at_94.76%_6.29%,rgba(255,130,0,0.8)_0%,rgba(255,255,255,0.8)_100%)] border-b-2 border-b-primary shadow-xl">
         <div
