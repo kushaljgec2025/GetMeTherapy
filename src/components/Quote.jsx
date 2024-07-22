@@ -1,10 +1,11 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, useRef, memo } from "react";
 
 const Quote = () => {
-  const [quote, setQuote] = useState("");
+  const [quote, setQuote] = useState(null);
   const [category, setCategory] = useState("food");
 
   const fetchQuote = async () => {
+    console.log("Fetching quote");
     try {
       const response = await fetch(
         `https://api.api-ninjas.com/v1/quotes?category=${category}`,
@@ -18,7 +19,7 @@ const Quote = () => {
         throw new Error(`Error: ${response.status}`);
       }
       const data = await response.json();
-      setQuote(data[0] || "No quote found");
+      setQuote(data[0] || { quote: "No quote found", author: "Unknown" });
     } catch (error) {
       console.error("Request failed:", error);
     }
@@ -26,19 +27,30 @@ const Quote = () => {
 
   useEffect(() => {
     fetchQuote();
-    // const intervalId = setInterval(fetchQuote, 5000); // Fetch new quote every 5 seconds
-    // return () => clearInterval(intervalId); // Cleanup interval on component unmount
-  }, [category]);
+    const interval = setInterval(() => {
+      fetchQuote();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []); // Empty dependency array ensures useEffect only runs once on mount
+
+  console.log("Component rendered");
 
   return (
     <div className="quote-container px-4 bg-primary rounded-t-3xl py-2 ">
       <h1 className="font-bold text-white text-center text-xl">Food Quote</h1>
-      <p className="quote-text text-sm text-white">{quote.quote}</p>
-      <p className="quote-text text-sm text-white font-bold text-center bg-white/25 rounded-full px-4 py-2 my-4 ">
-        Author: {quote.author}
-      </p>
+      {quote ? (
+        <>
+          <p className="quote-text text-sm text-white">{quote.quote}</p>
+          <p className="quote-text text-sm text-white font-bold text-center bg-white/25 rounded-full px-4 py-2 my-4 ">
+            Author: {quote.author}
+          </p>
+        </>
+      ) : (
+        <p className="quote-text text-sm text-white">Loading...</p>
+      )}
     </div>
   );
 };
 
-export default Quote;
+export default memo(Quote);

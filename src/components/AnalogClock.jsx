@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import SpeedSlider from "./SpeedSlider";
-import landing2 from "../assets/img/land2.png";
 import ShareButton from "./ShareButton";
 import { FaShareAlt } from "react-icons/fa";
 
@@ -12,6 +11,12 @@ const AnalogClock = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const speedParam = urlParams.get("speed");
     return speedParam ? parseFloat(speedParam) : 1;
+  };
+
+  const handleShare = () => {
+    const newUrl = `${window.location.origin}${window.location.pathname}?speed=${speed}`;
+    console.log(`Sharing URL: ${newUrl}`);
+    setUrl(newUrl);
   };
 
   const [speed, setSpeed] = useState(getInitialSpeed());
@@ -27,15 +32,13 @@ const AnalogClock = () => {
     };
   }, [speed]);
 
-  const handleShare = () => {
-    const newUrl = `${window.location.origin}${window.location.pathname}?speed=${speed}`;
-    setUrl(newUrl);
-  };
+  useEffect(() => {
+    console.log(`URL Updated: ${url}`);
+  }, [url]);
 
   return (
-    <div className="flex flex-col   items-center ">
+    <div className="flex flex-col items-center">
       <SpeedSlider speed={speed} setSpeed={setSpeed} />
-
       <div className="clock bg-[radial-gradient(169.40%_89.55%_at_94.76%_6.29%,rgba(255,130,0,0.8)_0%,rgba(255,255,255,0.8)_100%)] border-b-2 border-b-primary shadow-xl">
         <div
           className="hour_hand"

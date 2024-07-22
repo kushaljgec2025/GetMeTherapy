@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
-import land2 from "../assets/img/land2.png";
 import { useDispatch, useSelector } from "react-redux";
-import { auth } from "../../firebase/firebase";
+import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/auth/authslice";
 import AnalogClock from "../components/AnalogClock";
 import Quote from "../components/Quote";
-import { Link } from "react-router-dom";
 
 function Tackling() {
   const user = useSelector((state) => state.auth.user);
-  const handelLogout = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
   };
 
   return (
-    <div className=" w-[100vw] ">
+    <div className="w-[100vw]">
       <div className="shadow-xl p-2 z-10 flex justify-around">
         <div>
           <h1 className="text-4xl font-bold">Welcome</h1>
@@ -32,7 +32,7 @@ function Tackling() {
         )}
         {user && (
           <button
-            onClick={handelLogout}
+            onClick={handleLogout}
             className="bg-primary px-6 text-white z-10 rounded-full"
           >
             Logout
