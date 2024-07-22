@@ -1,14 +1,16 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import landing1 from "../assets/img/land1.png";
 import success from "../assets/img/success.png";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/auth/authslice";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase/firebase";
 
 function Success() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
+
   const handelLogout = () => {
     dispatch(logout());
     navigate("/login");

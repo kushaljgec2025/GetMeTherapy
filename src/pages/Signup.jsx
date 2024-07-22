@@ -1,7 +1,8 @@
 // Signup.js
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/firebase"; // Adjust the path as needed
+import { auth, provider } from "../../firebase/firebase"; // Adjust the path as needed
+import { signInWithPopup } from "firebase/auth";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import Google from "../assets/img/googleicon.png";
@@ -47,6 +48,27 @@ const Signup = () => {
       toast.error(err.message);
     }
   };
+  const handelGoogleLogin = async () => {
+    try {
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+      console.log(user);
+      const userData = {
+        uid: user.uid,
+        email: user.email,
+        emailVerified: user.emailVerified,
+        accessToken: user.accessToken,
+      };
+      toast.success("Created Account Successfully");
+      dispatch(login(userData));
+      setTimeout(() => {
+        navigate("/success");
+      }, 1000);
+    } catch {
+      setError(err.message);
+      toast.error(err.message);
+    }
+  };
 
   return (
     <div className=" h-screen px-4 py-6">
@@ -69,7 +91,7 @@ const Signup = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="px-2 py-4 bg-white rounded-lg border-2 border-gray"
+            className="px-2 py-4 bg-white rounded-lg border-2 border-gray text-black"
             placeholder="Email Adress"
           />
         </div>
@@ -80,7 +102,7 @@ const Signup = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            className="px-2 py-4 bg-white rounded-lg border-2 border-gray"
+            className="px-2 py-4 bg-white rounded-lg border-2 border-gray text-black"
             placeholder="UserName"
           />
         </div>
@@ -92,7 +114,7 @@ const Signup = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="px-2 py-4 bg-white rounded-lg border-2 border-gray w-full"
+              className="px-2 py-4 bg-white rounded-lg border-2 border-gray w-full text-black"
               placeholder="Password"
             />
             <div
@@ -119,7 +141,10 @@ const Signup = () => {
         <p className="text-gray">Or sign in with</p>
         <div className="bg-gray w-[28vw] h-[1px] "></div>
       </div>
-      <div className="flex justify-center items-center w-full my-4">
+      <div
+        className="flex justify-center items-center w-full my-4"
+        onClick={handelGoogleLogin}
+      >
         <img
           src={Google}
           alt="GoogleAuth"

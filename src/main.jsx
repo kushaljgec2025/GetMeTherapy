@@ -9,28 +9,49 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Tackling from "./pages/Tackling";
 import Success from "./pages/Success";
+import Authlayout from "./pages/Authlayout";
 
 // Define the router
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <Authlayout authentication={false}>
+        <App />
+      </Authlayout>
+    ),
   },
   {
     path: "/signup",
-    element: <Signup />,
+    element: (
+      <Authlayout authentication={false}>
+        <Signup />
+      </Authlayout>
+    ),
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <Authlayout authentication={false}>
+        <Login />
+      </Authlayout>
+    ),
   },
   {
     path: "/tackling",
-    element: <Tackling />,
+    element: (
+      <Authlayout authentication={false}>
+        <Tackling />
+      </Authlayout>
+    ),
   },
   {
     path: "/success",
-    element: <Success />,
+    element: (
+      <Authlayout authentication>
+        <Success />
+      </Authlayout>
+    ),
   },
 ]);
 
