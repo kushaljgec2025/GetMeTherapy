@@ -17,6 +17,12 @@ export default {
         white: "#FFFFFF",
         gray: "#C2C2C2",
         textgray: "#878787",
+        inputborder: "#EDEDED",
+        textblack: '#101010'
+
+      },
+      fontSize: {
+        small: "14px",
       }
     },
 

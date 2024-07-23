@@ -22,15 +22,15 @@ function Success() {
         alt="landing1"
         className="h-screen w-[100vw] object-cover"
       />
-      <div className=" fixed w-[90vw] h-[60vh] space-y-2 bg-gradient-to-tr from-70% from-white to-gray rounded-t-[64px] bottom-0 p-4 flex flex-col items-center justify-center">
+      <div className=" fixed w-[375px] h-[492px]  bg-white rounded-t-[24px] bottom-0 p-4 flex flex-col items-center justify-center">
+        <div className="w-[58.13px] h-[4px] absolute top-[10px] bg-gray rounded-full "></div>
         <div>
-          <img src={success} alt="" />
+          <img src={success} alt="sucess" className="h-[168px]" />
         </div>
-        <h1 className="text-3xl font-bold my-2">Login Successful</h1>
-        <p className="text-green-500">{user?.email || "user not found"}</p>
+        <h1 className="text-3xl font-bold my-[2rem]">Login Successful</h1>
 
         <button
-          className="bg-primary rounded-full py-4  text-white font-bold px-8"
+          className="bg-primary rounded-full p-[1rem] w-[312px] h-[52px] text-white font-bold "
           onClick={() => {
             navigate("/tackling");
           }}
@@ -39,7 +39,7 @@ function Success() {
         </button>
 
         <button
-          className="bg-gray  rounded-full py-4  text-white font-bold px-8 "
+          className="text-small text-textgray font-medium my-[22px]  "
           onClick={handelLogout}
         >
           Logout

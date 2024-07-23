@@ -4,7 +4,7 @@ import landing1 from "../assets/img/land1.png";
 import landing2 from "../assets/img/land2.png";
 import landing3 from "../assets/img/land3.png";
 import progress_button from "../assets/img/Progress button.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const slab = [1, 2, 3];
 const imgArray = [
@@ -22,43 +22,16 @@ const imgArray = [
   },
 ];
 
-const Landing_Qoute = [
-  {
-    title: "We serve incomparable delicacies ",
-    description:
-      "All the best restaurants with their top menu waiting for you, they can't wait for your order!!",
-  },
-
-  {
-    title: "Gourmet Delights Await",
-    description:
-      "Discover a world of gourmet delights with our handpicked menu, featuring the best of local and international cuisines, just a click away.",
-  },
-  {
-    title: "Taste the Finest Cuisines",
-    description:
-      "Indulge in a variety of exquisite dishes crafted by top chefs from around the world, ready to delight your taste buds.",
-  },
-];
-
 const Carousel = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const filteredImages = imgArray.filter((_, index) => index === currentIndex);
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === Landing_Qoute.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? Landing_Qoute.length - 1 : prevIndex - 1
-    );
+    setCurrentIndex((prevIndex) => prevIndex + 1);
   };
 
   const redirectTacklingPage = () => {
-    navigate("/signup");
+    navigate("/login");
   };
   console.log(currentIndex);
   return (
@@ -71,28 +44,24 @@ const Carousel = () => {
           className="w-[100vw] h-screen  object-cover "
         />
       ))}
-
-      <div className="w-[90vw] h-[50vh] bg-gradient-to-tr from-70% from-primary to-[#ffb35b] rounded-[64px] fixed bottom-4 p-4 flex flex-col items-center ">
-        <div className="flex w-full space-x-4">
-          {Landing_Qoute.map((data, index) => (
-            <div
-              key={index}
-              className={`w-[100vw] transition-transform duration-300 ${
-                index === currentIndex ? "block" : "hidden"
-              }`}
-            >
-              <h1 className="text-3xl font-bold text-center my-2 text-white">
-                {data.title}
-              </h1>
-              <p className="text-center text-white">{data.description}</p>
-            </div>
-          ))}
+      <div className="w-[134px] h-[5px] rounded-full fixed bottom-[8px] bg-white z-20"></div>
+      <div className="w-[311px] h-[400px] bg-primary  rounded-[48px] fixed bottom-[36px] p-4 flex flex-col items-center ">
+        <div className="flex w-full justify-center  ">
+          <div className="w-[64vw]">
+            <h1 className="text-[2em]  font-inter font-semibold leading-[40px] text-center  text-white">
+              We serve incomparable delicacies
+            </h1>
+            <p className="text-center text-small leading-[20px] my-[16px]  text-white">
+              All the best restaurants with their top menu waiting for you, they
+              can't wait for your order!!
+            </p>
+          </div>
         </div>
-        <div className="flex w-[40vw] space-x-2 justify-center my-4">
+        <div className="flex w-[80px] gap-[4px] justify-center my-4">
           {slab.map((data, index) => (
             <div
               key={index}
-              className={`w-[40vw] transition-transform duration-300 h-2 ${
+              className={`w-[24px] transition-transform duration-300 h-[6px] ${
                 index == currentIndex ? "bg-white" : "bg-gray"
               } rounded-full`}
             ></div>
@@ -103,7 +72,7 @@ const Carousel = () => {
             <img
               src={progress_button}
               alt="Progress Button"
-              className={` transition-transform duration-300 ${
+              className={` transition-transform duration-300 w-[94px] ${
                 currentIndex == 2 ? "block" : "hidden"
               }`}
               onClick={redirectTacklingPage}
@@ -114,13 +83,15 @@ const Carousel = () => {
               currentIndex == 2 ? "hidden" : "block"
             }`}
           >
-            <button className="text-[1em] text-white">skip</button>
+            <Link to="/login" className="text-small font-semibold text-white">
+              Skip
+            </Link>
             <button
               className="flex justify-center items-center space-x-2"
               onClick={nextSlide}
             >
-              <span className="text-[1em] text-white">Next</span>
-              <FaArrowRight className="text-white" />
+              <span className="text-small font-semibold text-white">Next</span>
+              <FaArrowRight className="text-white" size={"20px"} />
             </button>
           </div>
         </div>
