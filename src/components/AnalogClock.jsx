@@ -62,7 +62,9 @@ const AnalogClock = () => {
         <div
           className="hour_hand"
           style={{
-            transform: `rotateZ(${time.getHours() * 30}deg)`,
+            transform: `rotateZ(${
+              time.getHours() * 30 + time.getMinutes() * 0.5
+            }deg)`,
           }}
         />
         <div

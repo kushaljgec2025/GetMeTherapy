@@ -60,9 +60,8 @@ const Signup = () => {
       };
       toast.success("Created Account Successfully");
       dispatch(login(userData));
-      setTimeout(() => {
-        navigate("/success");
-      }, 1000);
+
+      navigate("/success");
     } catch {
       setError(err.message);
       toast.error(err.message);
