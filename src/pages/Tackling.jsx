@@ -37,7 +37,7 @@ function Tackling() {
           {user && (
             <button
               onClick={handleLogout}
-              className="bg-primary p- flex justify-center items-center text-white rounded-full"
+              className="bg-primary px-4 py-2 flex justify-center items-center text-white rounded-full"
             >
               Logout
             </button>
